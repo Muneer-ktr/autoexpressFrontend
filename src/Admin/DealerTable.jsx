@@ -121,7 +121,7 @@ function DealerTable(){
           <td>{dealer.secondname}</td>
           <td>@{dealer.email}</td>
           <td>
-            <a href={`${baseURL}/uploads/${dealer.licence}`} target='_blank' download={dealer.licence} className="text-decoration-none">
+            <a href={`${baseURL}/uploads/${dealer.licence}`}  download={dealer.licence} className="text-decoration-none">
               View Licence
             </a>
           </td>

@@ -36,10 +36,10 @@ const navigate = useNavigate()
 
         sessionStorage.setItem('user',JSON.stringify(response.data.existingUser))
         sessionStorage.setItem('token',response.data.token)
-        if(response.data.existingUser.role=='admin'){
+        if(response.data.existingUser.role==='admin'){
           navigate('/admin')
 
-        }else if(response.data.existingUser.role=='dealer'){
+        }else if(response.data.existingUser.role==='dealer'){
           if(response.data.existingUser.active === true){
             navigate('/')
           }else(
@@ -68,7 +68,7 @@ const navigate = useNavigate()
     console.log(response);
     
 
-    if(response.status == 200){
+    if(response.status === 200){
       setLoginresponse(response)
       sessionStorage.setItem('user',JSON.stringify(response.data.user))
       sessionStorage.setItem('token',response.data.token)

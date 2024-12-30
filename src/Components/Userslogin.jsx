@@ -110,7 +110,7 @@ function Userslogin() {
           style={{ backdropFilter: "blur(30px)" }}
         >
           {
-             step == 1 ?
+             step === 1 ?
 
             <div className="card-body p-5 shadow-5 text-center">
               <h2 className="fw-bold mb-5">Sign up now</h2>
