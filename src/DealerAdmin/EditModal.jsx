@@ -109,7 +109,7 @@ function EditModal({product}) {
                             <input type="file" style={{display:'none'}}
                             onChange={(e)=>seteditProduct({...editproduct,productImg:e.target.files[0]})}
                             />
-                            <img src={preview?preview:`${baseURL}/uploads/${product.productImage}`} alt="product image" className='img-fluid'
+                            <img src={preview?preview:`${baseURL}/uploads/${product.productImage}`}  className='img-fluid'
                             style={{height:'300px',width:'100%'}}
                             />
                         </label>

@@ -99,9 +99,8 @@ function Footer() {
       {/* Footer Bottom */}
       <div className="text-center p-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
         © 2024 Copyright: 
-        <a className="text-white ms-1" >
           <Link to={'/'}>AutoXpress</Link>
-        </a>
+       
       </div>
     </footer>
   );

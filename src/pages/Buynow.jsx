@@ -23,7 +23,7 @@ function Buynow() {
 
       useEffect(()=>{
         ProductDeatils()
-      },[])
+      },[ProductDeatils])
 
 
 

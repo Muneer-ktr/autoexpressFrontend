@@ -22,7 +22,7 @@ function Cars({category}) {
    }
   useEffect(()=>{
     getProduct()
-  },[category,searchTerm])
+  },[category,getProduct,searchTerm])
 
 
   return (
