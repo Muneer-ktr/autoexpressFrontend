@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Container, Modal, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container,Row } from 'react-bootstrap';
 import EditModal from './EditModal';
 import { deleteProduct, getDealerProducts } from '../Services/AllAPI';
 import { baseURL } from '../Services/baseURL';

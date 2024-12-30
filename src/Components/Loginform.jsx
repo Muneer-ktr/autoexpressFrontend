@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import log from '../assets/logimage.webp';
 import hed from '../assets/Screenshot 2024-11-18 141245.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from "jwt-decode";
-import { userlogin } from '../Services/AllAPI';
+// import { jwtDecode } from "jwt-decode";
+import { googleSignIn, userlogin } from '../Services/AllAPI';
+import {  LoginContext } from '../Context/LoginContext';
 
 
 
 function Loginform() {
+  const {setLoginresponse} = useContext(LoginContext)
 
   const [user,setUser] = useState({
     email:'',
@@ -28,6 +30,7 @@ const navigate = useNavigate()
       
 
       if(response.status === 200){
+        setLoginresponse(response)
         // sessionStorage.setItem('user',JSON.stringify(response.data.existingUser))
         // sessionStorage.setItem('token',response.data.token)
 
@@ -38,7 +41,7 @@ const navigate = useNavigate()
 
         }else if(response.data.existingUser.role=='dealer'){
           if(response.data.existingUser.active === true){
-            navigate('/dealeradmin/dealerabout')
+            navigate('/')
           }else(
             alert('You are not approved by admin')
           )
@@ -55,11 +58,29 @@ const navigate = useNavigate()
       }
     }
    
+  }
 
+  const signinwithgoogle = async (token) =>{
+    const reqBody ={
+      Googletoken:token
+    }
+    const response = await googleSignIn(reqBody)
+    console.log(response);
+    
+
+    if(response.status == 200){
+      setLoginresponse(response)
+      sessionStorage.setItem('user',JSON.stringify(response.data.user))
+      sessionStorage.setItem('token',response.data.token)
+      alert("Google SignIn Sucessfully")
+      navigate('/')
+    }else{
+      alert("Server error")
+    }
   }
 
   return (
-    <section className="vh-100 login-container">
+    <section className="100 vh login-container">
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col col-xl-10">
@@ -126,17 +147,17 @@ const navigate = useNavigate()
                           Login
                         </button>
                         <Link to="/home" style={{ textDecoration: 'none' }}>
-                          <button
+                          {/* <button
                             data-mdb-button-init
                             data-mdb-ripple-init
                             className="btn btn-dark btn-lg btn-block ms-4"
                             type="button"
                           >
                             Back to home
-                          </button>
+                          </button> */}
                         </Link>
                       </div>
-                      <Link to="/forgot-password" className="small text-muted">
+                      <Link to="/forgotpassword" className="small text-muted">
                         Forgot password?
                       </Link>
                       <p className="mb-5 pb-lg-2" style={{ color: '#393f81' }}>
@@ -147,21 +168,15 @@ const navigate = useNavigate()
                       </p>
                       <GoogleLogin
                         onSuccess={(credentialResponse) => {
-                          const decoded = jwtDecode(credentialResponse.credential);
-                          console.log(decoded);
+                          // const decoded = jwtDecode(credentialResponse.credential);
+                          signinwithgoogle(credentialResponse.credential)
+                          // console.log(decoded);
                         }}
                         onError={() => {
                           console.log('Login Failed');
                         }}
                       />
-                      <div className="mt-3">
-                        <Link to="/terms" className="small text-muted">
-                          Terms of use.
-                        </Link>{' '}
-                        <Link to="/privacy" className="small text-muted">
-                          Privacy policy
-                        </Link>
-                      </div>
+
                     </form>
                   </div>
                 </div>

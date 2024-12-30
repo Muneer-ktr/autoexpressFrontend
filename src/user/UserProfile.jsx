@@ -4,11 +4,11 @@ import UserEdit from "./UserEdit";
 
 function UserProfile() {
   const [userData, setUserData] = useState({
-    name: "Muneer",
-    phone: "8129651596",
-    address: "123 Main Street, City",
-    dob: "1990-01-01",
-    gender: "Male",
+    name: "",
+    phone: "",
+    address: "",
+    dob: "",
+    gender: "",
   });
 
   const handleEditProfile = (updatedData) => {

@@ -1,19 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import logo from '../assets/Grey_and_Black_Car_Rental_Service_Logo-removebg-preview.png'
 import './header.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AdminNav from '../Admin/AdminNav'
 import DealerNav from '../DealerAdmin/DealerNav'
+import {  LoginContext } from '../Context/LoginContext'
 
 function Header() {
+  const {loginresponse,setLoginresponse} = useContext(LoginContext)
   const [token, setToken] = useState('')
   const [user,setUser] = useState({})
+  const navigate = useNavigate()
   useEffect(() => {
     setToken(sessionStorage.getItem('token'))
     const userDetails = sessionStorage.getItem('user')
     setUser(JSON.parse(userDetails))
-  }, [])
+  }, [loginresponse])
+
+  const handleLogout=()=>{
+    sessionStorage.removeItem('token')
+      sessionStorage.removeItem('user')
+      navigate('/login')
+      setLoginresponse('')
+    
+  }
 
   return (
     <div>
@@ -112,7 +123,7 @@ function Header() {
               >
                 <NavDropdown.Item>
                   <Link
-                    to="/userprofile"
+                    to={"/userprofile"}
                     style={{ textDecoration: 'none', color: 'black' }}
                     onMouseOver={(e) => (e.target.style.color = '#007bff')}
                     onMouseOut={(e) => (e.target.style.color = 'black')}
@@ -122,7 +133,7 @@ function Header() {
                 </NavDropdown.Item>
                 <NavDropdown.Item>
                   <Link
-                    to="/order"
+                    to={"/order"}
                     style={{ textDecoration: 'none', color: 'black' }}
                     onMouseOver={(e) => (e.target.style.color = '#007bff')}
                     onMouseOut={(e) => (e.target.style.color = 'black')}
@@ -133,6 +144,7 @@ function Header() {
                 <NavDropdown.Item
                   onMouseOver={(e) => (e.target.style.color = '#007bff')}
                   onMouseOut={(e) => (e.target.style.color = 'black')}
+                  onClick={handleLogout}
                 >
                   Logout
                 </NavDropdown.Item>

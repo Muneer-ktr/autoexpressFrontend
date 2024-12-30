@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/Grey_and_Black_Car_Rental_Service_Logo-removebg-preview.png';
+import { LoginContext } from '../Context/LoginContext';
 
 function AdminNav() {
+    const {setLoginresponse} = useContext(LoginContext)
+  
+  const navigate = useNavigate()
+
+  const handleLogout=()=>{
+    sessionStorage.removeItem('token')
+      sessionStorage.removeItem('user')
+      navigate('/login')
+      setLoginresponse('')
+    
+  }
+
   return (
     <div>
       <Navbar
@@ -34,7 +47,9 @@ function AdminNav() {
                 </Link>
               </Nav.Link>
             </Nav>
-            <Button className="btn btn-dark">Logout</Button>
+            <Button className="btn btn-dark"
+            onClick={handleLogout}
+            >Logout</Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>

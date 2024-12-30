@@ -1,7 +1,41 @@
-import React from 'react'
-import { Button, Col, Container, FloatingLabel, Form, Row } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Col, Container, Row } from 'react-bootstrap'
+import { appReview } from '../Services/AllAPI'
 
 function Contact() {
+
+  const [appreviews,setAppreview] = useState({
+    username:'',
+    review:'',
+    email:''
+  })
+
+      const handleAppReview = async (e) => {
+          e.preventDefault()
+          const {username,review,email} = appReview
+         
+          const token = sessionStorage.getItem('token')
+          if(!token){
+            alert('plase login')
+          }
+  
+          const reqHeader = {
+              'Authorization': `Bearer ${token}`,
+              "Content-Type": "application/json"
+          }
+  
+          const response = await appReview(appreviews, reqHeader)
+  console.log(response);
+          if (response.status == 200) {
+              alert('review added')
+              setAppreview({ username:'',
+                review:'',
+                email:''
+              })
+  
+          }  
+      }
+     
   return (
  <>
 <Container>
@@ -32,6 +66,8 @@ function Contact() {
             name="name"
             placeholder="Enter your name"
             style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
+            value={appreviews.username}
+            onChange={(e) => setAppreview({...appreviews,username:e.target.value})}
           />
         </div>
         <div style={{ marginBottom: '15px' }}>
@@ -42,6 +78,9 @@ function Contact() {
             name="email"
             placeholder="Enter your email"
             style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
+            value={appreviews.email}
+            onChange={(e) => setAppreview({...appreviews,email:e.target.value})}
+
           />
         </div>
         <div style={{ marginBottom: '15px' }}>
@@ -52,6 +91,8 @@ function Contact() {
             rows="5"
             placeholder="Write your feedback here..."
             style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
+            value={appreviews.review}
+            onChange={(e) => setAppreview({...appreviews,review:e.target.value})}
           ></textarea>
         </div>
         <button
@@ -64,6 +105,7 @@ function Contact() {
             border: 'none',
             cursor: 'pointer'
           }}
+          onClick={(e) => handleAppReview(e)}
         >
           Submit Feedback
         </button>
@@ -71,9 +113,8 @@ function Contact() {
     </Col>
   </Row>
 </Container>
-
     </>   
   )
 }
 
-export default Contact
+export default Contact;

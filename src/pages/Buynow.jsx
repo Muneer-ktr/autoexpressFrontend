@@ -1,6 +1,116 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getProductDeatils, paymentController, placeOrder } from "../Services/AllAPI";
 
 function Buynow() {
+  const {id} = useParams()
+  const[product,setProduct] = useState({})
+
+  const [order,setOrder] = useState({
+    productID:id,
+    ShippingAddress:'',
+    City:'',
+    State:'',
+    Pincode:'',
+    phoneNumber:'',
+    PaymentID:'',
+    amount: '',
+  })
+      const ProductDeatils =async()=>{
+          const response = await getProductDeatils(id)
+          setProduct(response.data)
+      }
+
+      useEffect(()=>{
+        ProductDeatils()
+      },[])
+
+
+
+      const buynow = async(amount,paymentId)=>{
+        
+       const reqBody={
+      productID: order.productID,
+      ShippingAddress: order.ShippingAddress,
+      City: order.City,
+      State: order.State,
+      Pincode: order.Pincode,
+      phoneNumber: order.phoneNumber,
+      PaymentID: paymentId,
+      amount: amount,
+       }
+        const token = sessionStorage.getItem('token')
+
+    
+        const reqHeader = {
+          'Authorization': `Bearer ${token}`,
+          "Content-Type":"application/json"
+        }
+         const response = await placeOrder(reqBody,reqHeader)
+         console.log(response);
+
+      }
+
+      const loadScript =(src)=>{
+        return new Promise((resolve) => {
+          const script = document.createElement('script')
+
+          script.src = src
+
+          script.onload = () =>{
+            resolve(true)
+          }
+          script.onerror=()=>{
+            resolve(false)
+          }
+          document.body.appendChild(script)
+        })
+      }
+      
+
+      const Payment = async()=>{
+        const reqBody = {
+          amount: product.price * 100
+        }
+        const token = sessionStorage.getItem('token')
+
+    
+        const reqHeader = {
+          'Authorization': `Bearer ${token}`,
+          "Content-Type":"application/json"
+        }
+        const response = await paymentController(reqBody,reqHeader)
+        handleRazorpayScreen(response.data.amount)
+        
+      }
+      const handleRazorpayScreen = async(amount)=>{
+        const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js")
+
+        if(!res){
+          alert("Some errorr at Razorpay loading")
+          return
+        }
+        const options ={
+          key : 'rzp_test_YWob3NoKy2p5h6',
+          amount : amount,
+          currency : 'INR',
+
+          handler : function(response){
+            setOrder({...order,PaymentID:response?.razorpay_payment_id})
+            buynow(amount,response?.razorpay_payment_id)
+          },
+          
+          theme:{
+            color:"#F4C430"
+          }
+
+        }
+        const paymentObject = new window.Razorpay(options)
+        paymentObject.open()
+      }
+
+      
+
   return (
     <div>
       <div>
@@ -50,28 +160,17 @@ function Buynow() {
             <p>Fill out the details below to complete your purchase.</p>
           </div>
           {/* Order Form */}
-          <form action="/submit-order" method="POST">
+          <form>
             <h4>Shipping Information</h4>
-            <input
-              type="text"
-              name="name"
-              className="form-control"
-              placeholder="Full Name"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              className="form-control"
-              placeholder="Email Address"
-              required
-            />
+           
             <input
               type="text"
               name="address"
               className="form-control"
               placeholder="Shipping Address"
               required
+
+              onChange={(e)=>setOrder({...order,ShippingAddress:e.target.value})}
             />
             <input
               type="text"
@@ -79,6 +178,8 @@ function Buynow() {
               className="form-control"
               placeholder="City"
               required
+              onChange={(e)=>setOrder({...order,City:e.target.value})}
+
             />
             <input
               type="text"
@@ -86,6 +187,7 @@ function Buynow() {
               className="form-control"
               placeholder="State"
               required
+              onChange={(e)=>setOrder({...order,State:e.target.value})}
             />
             <input
               type="text"
@@ -93,6 +195,7 @@ function Buynow() {
               className="form-control"
               placeholder="Pin Code"
               required
+              onChange={(e)=>setOrder({...order,Pincode:e.target.value})}
             />
             <input
               type="tel"
@@ -100,6 +203,7 @@ function Buynow() {
               className="form-control"
               placeholder="Phone Number"
               required
+              onChange={(e)=>setOrder({...order,phoneNumber:e.target.value})}
             />
 
             <h4>Payment Method</h4>
@@ -111,22 +215,10 @@ function Buynow() {
               <option value="" disabled selected>
                 Select Payment Method
               </option>
-              <option value="creditCard">Credit/Debit Card</option>
-              <option value="paypal">gpay</option>
+              <option value="creditCard">Rozerpay</option>
               <option value="cod">Cash on Delivery (COD)</option>
             </select>
-
-            {/* Card Payment Details */}
-            <div className="mt-3">
-              <input
-                type="text"
-                name="cardNumber"
-                className="form-control"
-                placeholder="Card Number"
-              />
-            </div>
-
-            <button type="submit" className="btn-order mt-4">
+            <button type="submit" className="btn-order mt-4" onClick={Payment}>
               Confirm Order
             </button>
           </form>

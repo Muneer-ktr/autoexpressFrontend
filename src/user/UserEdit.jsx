@@ -14,15 +14,10 @@ function UserEdit() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
-  };
+
 
   const handleSave = () => {
-    // Logic for saving user data can be added here
-    console.log('User Data:', userData);
-    setShow(false); // Close modal after saving
+
   };
 
   return (
@@ -40,12 +35,20 @@ function UserEdit() {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>FirstName</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
                 value={userData.name}
-                onChange={handleInputChange}
+                placeholder="Enter your name"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>SecondName</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={userData.name}
                 placeholder="Enter your name"
               />
             </Form.Group>
@@ -55,7 +58,6 @@ function UserEdit() {
                 type="tel"
                 name="phone"
                 value={userData.phone}
-                onChange={handleInputChange}
                 placeholder="Enter your phone number"
               />
             </Form.Group>
@@ -65,7 +67,6 @@ function UserEdit() {
                 type="text"
                 name="address"
                 value={userData.address}
-                onChange={handleInputChange}
                 placeholder="Enter your address"
               />
             </Form.Group>
@@ -75,7 +76,6 @@ function UserEdit() {
               <Form.Select
                 name="gender"
                 value={userData.gender}
-                onChange={handleInputChange}
               >
                 <option value="Not Specified">Not Specified</option>
                 <option value="Male">Male</option>

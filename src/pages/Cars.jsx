@@ -3,19 +3,18 @@ import { Card, Form, FormControl, Button, Container, Row, Col } from 'react-boot
 import { Link } from 'react-router-dom';
 import { getProductCategory } from '../Services/AllAPI';
 import { baseURL } from '../Services/baseURL';
+import './about.css'
 
 function Cars({category}) {
-  // console.log(category);
   
   const [products,setProducts] = useState([])
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
+ 
    const getProduct = async()=>{
-     const response = await getProductCategory(category)
+    
+     const response = await getProductCategory(category,searchTerm)
     //  console.log(response);
      
      setProducts(response.data)
@@ -23,7 +22,7 @@ function Cars({category}) {
    }
   useEffect(()=>{
     getProduct()
-  },[category])
+  },[category,searchTerm])
 
 
   return (
@@ -34,14 +33,14 @@ function Cars({category}) {
           placeholder="Search for Parts"
           className="me-2"
           value={searchTerm}
-          onChange={handleSearch}
+          onChange={(e)=>setSearchTerm(e.target.value)}
           aria-label="Search"
         />
         <Button variant="outline-dark">Search</Button>
       </Form>
 
       <Row className="g-3 mb-3">
-        {products.map((item, index) => (
+        {products?.map((item, index) => (
           <Col key={index} xs={12} sm={6} md={4} lg={3} className="d-flex justify-content-center">
             <Card style={{ width: '18rem' }}>
               <Card.Img variant="top"
@@ -49,7 +48,7 @@ function Cars({category}) {
               src={`${baseURL}/uploads/${item.productImage}`} />
               <Card.Body>
                 <Card.Title>
-                  <Link
+                  <Link id='linkClr'
                     to={ `/deatileproduct/${item._id}`}
                     style={{
                       textDecoration: 'none',
@@ -59,7 +58,7 @@ function Cars({category}) {
                   </Link>
                 </Card.Title>
                 <Card.Text>
-                  <h6>{item.price}</h6>
+                  <h6>&#8377;{item.price}</h6>
                 </Card.Text>
               </Card.Body>
             </Card>
