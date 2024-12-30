@@ -198,7 +198,7 @@ useEffect(()=>{
                                                 />
                                             </div>
     
-                                            <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Do you have an account? <a style={{color: '#393f81'}}><Link to={'/login'}>login</Link></a></p>
+                                            <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Do you have an account? <Link style={{color: '#393f81'}} to={'/login'}>login</Link></p>
     
                                             {/* Submit button */}
                                             <button
