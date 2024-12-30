@@ -20,7 +20,7 @@ function EditModal({product}) {
     })
  const handleUpdate =async()=>{
     
-    const {name,category,description,prize,productImg} =  editproduct
+    const {name,category,description,prize} =  editproduct
     if(!name || !category || !description || !prize ){
         alert('fill the form')
     }else{

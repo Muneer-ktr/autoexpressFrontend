@@ -1,5 +1,4 @@
 import React from 'react'
-import about from '../assets/automob3.jpg'
 import about1 from '../assets/aboutvid.mp4'
 import { Col, Container, Row } from 'react-bootstrap'
 import './about.css'
