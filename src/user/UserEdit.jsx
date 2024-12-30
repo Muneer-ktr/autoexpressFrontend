@@ -41,6 +41,7 @@ function UserEdit() {
                 name="name"
                 value={userData.name}
                 placeholder="Enter your name"
+                onChange={(e)=>setUserData({...userData,name:e.target.value})}
               />
             </Form.Group>
             <Form.Group className="mb-3">

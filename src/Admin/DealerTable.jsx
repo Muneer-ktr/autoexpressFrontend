@@ -74,7 +74,7 @@ function DealerTable(){
  <td>{dealer.secondname}</td>
  <td>{dealer.email}</td>
  <td>
-   <a href={`${baseURL}/uploads/${dealer.licence}`} target='_blank' download={dealer.licence} className="text-decoration-none">click 
+   <a href={`${baseURL}/uploads/${dealer.licence}`} download={dealer.licence} className="text-decoration-none">click 
    {/* <img src={`${baseURL}/uploads/${dealer.licence}`} alt="license" style={{height:'20vh', width:'100%'}} /> */}
    </a>
  </td>
