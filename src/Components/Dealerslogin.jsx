@@ -95,7 +95,7 @@ useEffect(()=>{
     if(dealer.license){
         setPreview(URL.createObjectURL(dealer.license))
     }
-},[dealer.email, step])
+},[dealer.email,dealer.license, step])
     return (
         <div>
             <section className="text-center text-lg-start"
@@ -130,7 +130,7 @@ useEffect(()=>{
                                     
                                   
                                        { 
-                                        step == 1?
+                                        step === 1?
                                         <div className="card-body p-5 shadow-5 text-center">
                                         <h2 className="fw-bold mb-5">Dealer Register</h2>
                                         <form>

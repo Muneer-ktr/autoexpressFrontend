@@ -12,7 +12,7 @@ function Contact() {
 
       const handleAppReview = async (e) => {
           e.preventDefault()
-          const {username,review,email} = appReview
+          // const {username,review,email} = appReview
          
           const token = sessionStorage.getItem('token')
           if(!token){
