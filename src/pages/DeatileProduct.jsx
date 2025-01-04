@@ -48,7 +48,7 @@ function DeatileProduct() {
         const user = JSON.parse(userDeatils)
         setUser(user)
         ProductDeatils()
-    }, [id,ProductDeatils])
+    }, [])
 
     // console.log(user);
 
@@ -79,10 +79,6 @@ function DeatileProduct() {
         }
 
     }
-
-
-
-
     return (
         <div>
             <Container className="my-4">
