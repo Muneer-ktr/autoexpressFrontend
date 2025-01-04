@@ -149,3 +149,8 @@ export const getAppreview = async(reqHeader)=>{
     return await commonAPI('GET',`${baseURL}/getreview`,"",reqHeader)
 }
 
+//user profile edit
+export const userprofile = async(reqHeader,reqBody)=>{
+    return await commonAPI('PUT',`${baseURL}/updateprofile`,reqHeader,reqBody)
+}
+
